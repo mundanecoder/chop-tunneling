@@ -28,7 +28,15 @@ export default function (opt) {
 
   const app = new Koa();
   const router = new Router();
-  app.use(cors());
+  app.use(
+    cors({
+      origin: "*", // Allow all origins (or specify specific origins, e.g., "http://localhost:3000")
+      allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed HTTP methods
+      allowHeaders: ["Content-Type", "Authorization"], // Allowed headers
+      exposeHeaders: ["Content-Length", "X-Koa-Request-ID"], // Headers exposed to the client
+      credentials: true, // Allow credentials (cookies, authorization headers)
+    })
+  );
 
   router.get("/api/status", async (ctx, next) => {
     const stats = manager.stats;
